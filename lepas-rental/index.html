@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Lepas - Platform rental mobil terpercaya. Sewa mobil mudah, cepat, dan aman.">
+    <title>Lepas - Rental Mobil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app" class="app-container">
+        <!-- ========== SPLASH SCREEN ========== -->
+        <div id="page-splash" class="page active">
+            <div class="splash-bg">
+                <div class="splash-overlay"></div>
+                <div class="splash-content">
+                    <div class="splash-logo">
+                        <h1 class="splash-title">Lepas</h1>
+                        <span class="splash-subtitle">drive ✦</span>
+                    </div>
+                    <div class="splash-loader">
+                        <div class="loader-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== LOGIN PAGE ========== -->
+        <div id="page-login" class="page">
+            <div class="auth-page">
+                <div class="auth-header-bg"></div>
+                <div class="auth-content">
+                    <button class="btn-back" onclick="navigateTo('splash')">
+                        <span class="material-icons-outlined">arrow_back</span>
+                    </button>
+                    <div class="auth-card">
+                        <h2 class="auth-title">Welcome Back</h2>
+                        <p class="auth-desc">Masuk ke akun Anda untuk melanjutkan</p>
+                        
+                        <button class="btn-google" id="btn-google-login">
+                            <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20">
+                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                            </svg>
+                            Login dengan Google
+                        </button>
+
+                        <div class="divider">
+                            <span>atau</span>
+                        </div>
+
+                        <form id="login-form" onsubmit="handleLogin(event)">
+                            <div class="form-group">
+                                <label for="login-email">Email</label>
+                                <div class="input-wrapper">
+                                    <span class="material-icons-outlined input-icon">mail</span>
+                                    <input type="email" id="login-email" placeholder="Masukkan email" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="login-password">Password</label>
+                                <div class="input-wrapper">
+                                    <span class="material-icons-outlined input-icon">lock</span>
+                                    <input type="password" id="login-password" placeholder="Masukkan password" required>
+                                    <button type="button" class="toggle-password" onclick="togglePassword('login-password', this)">
+                                        <span class="material-icons-outlined">visibility_off</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <a href="#" class="forgot-link">Lupa Password?</a>
+                            <button type="submit" class="btn-primary btn-full">Masuk</button>
+                        </form>
+
+                        <p class="auth-switch">
+                            Belum punya akun? <a href="#" onclick="navigateTo('register')">Daftar</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== REGISTER PAGE ========== -->
+        <div id="page-register" class="page">
+            <div class="auth-page">
+                <div class="auth-header-bg"></div>
+                <div class="auth-content">
+                    <button class="btn-back" onclick="navigateTo('login')">
+                        <span class="material-icons-outlined">arrow_back</span>
+                    </button>
+                    <div class="auth-card">
+                        <h2 class="auth-title">Get Started</h2>
+                        <p class="auth-desc">Buat akun baru untuk mulai rental mobil</p>
+                        
+                        <button class="btn-google" id="btn-google-register">
+                            <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20">
+                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                            </svg>
+                            Daftar dengan Google
+                        </button>
+
+                        <div class="divider">
+                            <span>atau</span>
+                        </div>
+
+                        <form id="register-form" onsubmit="handleRegister(event)">
+                            <div class="form-group">
+                                <label for="reg-name">Nama Lengkap</label>
+                                <div class="input-wrapper">
+                                    <span class="material-icons-outlined input-icon">person</span>
+                                    <input type="text" id="reg-name" placeholder="Masukkan nama lengkap" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-email">Email</label>
+                                <div class="input-wrapper">
+                                    <span class="material-icons-outlined input-icon">mail</span>
+                                    <input type="email" id="reg-email" placeholder="Masukkan email" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-phone">No. Telepon</label>
+                                <div class="input-wrapper">
+                                    <span class="material-icons-outlined input-icon">phone</span>
+                                    <input type="tel" id="reg-phone" placeholder="Masukkan no. telepon" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-password">Password</label>
+                                <div class="input-wrapper">
+                                    <span class="material-icons-outlined input-icon">lock</span>
+                                    <input type="password" id="reg-password" placeholder="Buat password" required>
+                                    <button type="button" class="toggle-password" onclick="togglePassword('reg-password', this)">
+                                        <span class="material-icons-outlined">visibility_off</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-confirm">Konfirmasi Password</label>
+                                <div class="input-wrapper">
+                                    <span class="material-icons-outlined input-icon">lock</span>
+                                    <input type="password" id="reg-confirm" placeholder="Konfirmasi password" required>
+                                    <button type="button" class="toggle-password" onclick="togglePassword('reg-confirm', this)">
+                                        <span class="material-icons-outlined">visibility_off</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="reg-terms" required>
+                                <label for="reg-terms">Saya setuju dengan <a href="#">Syarat & Ketentuan</a></label>
+                            </div>
+
+                            <button type="submit" class="btn-primary btn-full">Daftar</button>
+                        </form>
+
+                        <p class="auth-switch">
+                            Sudah punya akun? <a href="#" onclick="navigateTo('login')">Masuk</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== DASHBOARD ========== -->
+        <div id="page-dashboard" class="page">
+            <div class="dashboard-page">
+                <!-- Top Header -->
+                <div class="dash-header">
+                    <div class="dash-header-top">
+                        <div class="dash-user-info">
+                            <div class="dash-avatar" id="dash-avatar">R</div>
+                            <div>
+                                <p class="dash-greeting">Hi, <span id="dash-username">Rizki</span> 👋</p>
+                                <p class="dash-location">
+                                    <span class="material-icons-outlined" style="font-size:14px">location_on</span>
+                                    Jakarta, Indonesia
+                                </p>
+                            </div>
+                        </div>
+                        <button class="dash-notif-btn" onclick="navigateTo('notifikasi')">
+                            <span class="material-icons-outlined">notifications</span>
+                            <span class="notif-badge">3</span>
+                        </button>
+                    </div>
+                    <!-- Search Bar -->
+                    <div class="dash-search">
+                        <span class="material-icons-outlined">search</span>
+                        <input type="text" placeholder="Cari mobil atau rental..." id="dash-search-input">
+                        <button class="search-filter-btn">
+                            <span class="material-icons-outlined">tune</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Promo Banner -->
+                <div class="dash-promo-section">
+                    <div class="promo-banner">
+                        <div class="promo-content">
+                            <span class="promo-badge">PROMO</span>
+                            <h3>Diskon 25%</h3>
+                            <p>Untuk rental pertama kamu!</p>
+                            <button class="btn-promo" onclick="navigateTo('categories')">Klaim Sekarang</button>
+                        </div>
+                        <div class="promo-illustration">
+                            <span class="material-icons-outlined" style="font-size:80px;color:rgba(255,255,255,0.3)">directions_car</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Categories -->
+                <div class="dash-categories">
+                    <div class="section-header">
+                        <h3>Kategori</h3>
+                        <a href="#" onclick="navigateTo('categories')">Lihat Semua</a>
+                    </div>
+                    <div class="cat-grid">
+                        <div class="cat-item" onclick="navigateTo('categories')">
+                            <div class="cat-icon"><span class="material-icons-outlined">directions_car</span></div>
+                            <span>Sedan</span>
+                        </div>
+                        <div class="cat-item" onclick="navigateTo('categories')">
+                            <div class="cat-icon"><span class="material-icons-outlined">airport_shuttle</span></div>
+                            <span>SUV</span>
+                        </div>
+                        <div class="cat-item" onclick="navigateTo('categories')">
+                            <div class="cat-icon"><span class="material-icons-outlined">local_shipping</span></div>
+                            <span>MPV</span>
+                        </div>
+                        <div class="cat-item" onclick="navigateTo('categories')">
+                            <div class="cat-icon"><span class="material-icons-outlined">sports_motorsports</span></div>
+                            <span>Sport</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rekomendasi Rental -->
+                <div class="dash-section">
+                    <div class="section-header">
+                        <h3>Rekomendasi Rental</h3>
+                        <a href="#" onclick="navigateTo('categories')">Lihat Semua</a>
+                    </div>
+                    <div class="horizontal-scroll" id="rental-recommendations">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- Rekomendasi Mobil -->
+                <div class="dash-section">
+                    <div class="section-header">
+                        <h3>Rekomendasi Mobil</h3>
+                        <a href="#" onclick="navigateTo('categories')">Lihat Semua</a>
+                    </div>
+                    <div class="car-grid" id="car-recommendations">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <div style="height: 100px;"></div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <nav class="bottom-nav" id="bottom-nav">
+                <button class="nav-item active" data-page="dashboard" onclick="switchTab('dashboard')">
+                    <span class="material-icons-outlined">home</span>
+                    <span class="nav-label">Home</span>
+                </button>
+                <button class="nav-item" data-page="simpan" onclick="switchTab('simpan')">
+                    <span class="material-icons-outlined">bookmark_border</span>
+                    <span class="nav-label">Simpan</span>
+                </button>
+                <button class="nav-item" data-page="notifikasi" onclick="switchTab('notifikasi')">
+                    <span class="material-icons-outlined">notifications_none</span>
+                    <span class="nav-label">Notifikasi</span>
+                </button>
+                <button class="nav-item" data-page="riwayat" onclick="switchTab('riwayat')">
+                    <span class="material-icons-outlined">history</span>
+                    <span class="nav-label">Riwayat</span>
+                </button>
+                <button class="nav-item" data-page="menu" onclick="switchTab('menu')">
+                    <span class="material-icons-outlined">menu</span>
+                    <span class="nav-label">Menu</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- ========== CATEGORIES PAGE ========== -->
+        <div id="page-categories" class="page">
+            <div class="sub-page">
+                <div class="sub-header olive-header">
+                    <button class="btn-back-white" onclick="navigateTo('dashboard')">
+                        <span class="material-icons-outlined">arrow_back</span>
+                    </button>
+                    <h2>Kategori</h2>
+                    <div style="width:40px"></div>
+                </div>
+                <div class="sub-content">
+                    <div class="categories-grid" id="categories-grid">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== SIMPAN (SAVED) PAGE ========== -->
+        <div id="page-simpan" class="page">
+            <div class="sub-page">
+                <div class="sub-header olive-header">
+                    <button class="btn-back-white" onclick="navigateTo('dashboard')">
+                        <span class="material-icons-outlined">arrow_back</span>
+                    </button>
+                    <h2>Simpan</h2>
+                    <div style="width:40px"></div>
+                </div>
+                <div class="sub-content">
+                    <div class="tab-bar">
+                        <button class="tab-btn active" onclick="switchSavedTab('semua', this)">Semua</button>
+                        <button class="tab-btn" onclick="switchSavedTab('mobil', this)">Mobil</button>
+                        <button class="tab-btn" onclick="switchSavedTab('rental', this)">Rental</button>
+                    </div>
+                    <div class="saved-list" id="saved-list">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </div>
+            <nav class="bottom-nav">
+                <button class="nav-item" data-page="dashboard" onclick="switchTab('dashboard')">
+                    <span class="material-icons-outlined">home</span>
+                    <span class="nav-label">Home</span>
+                </button>
+                <button class="nav-item active" data-page="simpan" onclick="switchTab('simpan')">
+                    <span class="material-icons-outlined">bookmark</span>
+                    <span class="nav-label">Simpan</span>
+                </button>
+                <button class="nav-item" data-page="notifikasi" onclick="switchTab('notifikasi')">
+                    <span class="material-icons-outlined">notifications_none</span>
+                    <span class="nav-label">Notifikasi</span>
+                </button>
+                <button class="nav-item" data-page="riwayat" onclick="switchTab('riwayat')">
+                    <span class="material-icons-outlined">history</span>
+                    <span class="nav-label">Riwayat</span>
+                </button>
+                <button class="nav-item" data-page="menu" onclick="switchTab('menu')">
+                    <span class="material-icons-outlined">menu</span>
+                    <span class="nav-label">Menu</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- ========== NOTIFIKASI PAGE ========== -->
+        <div id="page-notifikasi" class="page">
+            <div class="sub-page">
+                <div class="sub-header olive-header">
+                    <button class="btn-back-white" onclick="navigateTo('dashboard')">
+                        <span class="material-icons-outlined">arrow_back</span>
+                    </button>
+                    <h2>Notifikasi</h2>
+                    <button class="btn-header-action" onclick="markAllRead()">
+                        <span class="material-icons-outlined">done_all</span>
+                    </button>
+                </div>
+                <div class="sub-content">
+                    <div class="notif-list" id="notif-list">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </div>
+            <nav class="bottom-nav">
+                <button class="nav-item" data-page="dashboard" onclick="switchTab('dashboard')">
+                    <span class="material-icons-outlined">home</span>
+                    <span class="nav-label">Home</span>
+                </button>
+                <button class="nav-item" data-page="simpan" onclick="switchTab('simpan')">
+                    <span class="material-icons-outlined">bookmark_border</span>
+                    <span class="nav-label">Simpan</span>
+                </button>
+                <button class="nav-item active" data-page="notifikasi" onclick="switchTab('notifikasi')">
+                    <span class="material-icons-outlined">notifications</span>
+                    <span class="nav-label">Notifikasi</span>
+                </button>
+                <button class="nav-item" data-page="riwayat" onclick="switchTab('riwayat')">
+                    <span class="material-icons-outlined">history</span>
+                    <span class="nav-label">Riwayat</span>
+                </button>
+                <button class="nav-item" data-page="menu" onclick="switchTab('menu')">
+                    <span class="material-icons-outlined">menu</span>
+                    <span class="nav-label">Menu</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- ========== RIWAYAT (HISTORY) PAGE ========== -->
+        <div id="page-riwayat" class="page">
+            <div class="sub-page">
+                <div class="sub-header olive-header">
+                    <button class="btn-back-white" onclick="navigateTo('dashboard')">
+                        <span class="material-icons-outlined">arrow_back</span>
+                    </button>
+                    <h2>Riwayat</h2>
+                    <div style="width:40px"></div>
+                </div>
+                <div class="sub-content">
+                    <div class="tab-bar">
+                        <button class="tab-btn active" onclick="switchHistoryTab('semua', this)">Semua</button>
+                        <button class="tab-btn" onclick="switchHistoryTab('aktif', this)">Aktif</button>
+                        <button class="tab-btn" onclick="switchHistoryTab('selesai', this)">Selesai</button>
+                    </div>
+                    <div class="history-list" id="history-list">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </div>
+            <nav class="bottom-nav">
+                <button class="nav-item" data-page="dashboard" onclick="switchTab('dashboard')">
+                    <span class="material-icons-outlined">home</span>
+                    <span class="nav-label">Home</span>
+                </button>
+                <button class="nav-item" data-page="simpan" onclick="switchTab('simpan')">
+                    <span class="material-icons-outlined">bookmark_border</span>
+                    <span class="nav-label">Simpan</span>
+                </button>
+                <button class="nav-item" data-page="notifikasi" onclick="switchTab('notifikasi')">
+                    <span class="material-icons-outlined">notifications_none</span>
+                    <span class="nav-label">Notifikasi</span>
+                </button>
+                <button class="nav-item active" data-page="riwayat" onclick="switchTab('riwayat')">
+                    <span class="material-icons-outlined">history</span>
+                    <span class="nav-label">Riwayat</span>
+                </button>
+                <button class="nav-item" data-page="menu" onclick="switchTab('menu')">
+                    <span class="material-icons-outlined">menu</span>
+                    <span class="nav-label">Menu</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- ========== RENTAL DETAIL PAGE ========== -->
+        <div id="page-rental" class="page">
+            <div class="sub-page">
+                <div class="sub-header olive-header">
+                    <button class="btn-back-white" onclick="navigateTo('riwayat')">
+                        <span class="material-icons-outlined">arrow_back</span>
+                    </button>
+                    <h2>Rental</h2>
+                    <div style="width:40px"></div>
+                </div>
+                <div class="sub-content rental-detail-content" id="rental-detail-content">
+                    <!-- Filled by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== CAR DETAIL PAGE ========== -->
+        <div id="page-car-detail" class="page">
+            <div class="car-detail-page">
+                <div class="car-detail-header">
+                    <button class="btn-back-white" onclick="navigateTo('dashboard')" style="position:absolute;top:16px;left:16px;z-index:10">
+                        <span class="material-icons-outlined">arrow_back</span>
+                    </button>
+                    <button class="btn-save-car" id="btn-save-car" onclick="toggleSaveCar()">
+                        <span class="material-icons-outlined" id="save-car-icon">bookmark_border</span>
+                    </button>
+                    <div class="car-detail-image" id="car-detail-image">
+                        <span class="material-icons-outlined" style="font-size:120px;color:rgba(255,255,255,0.4)">directions_car</span>
+                    </div>
+                </div>
+                <div class="car-detail-body" id="car-detail-body">
+                    <!-- Filled by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== MENU PAGE ========== -->
+        <div id="page-menu" class="page">
+            <div class="sub-page">
+                <div class="sub-header olive-header menu-header-custom">
+                    <div class="menu-search-bar">
+                        <span class="material-icons-outlined">search</span>
+                        <input type="text" placeholder="Cari menu...">
+                    </div>
+                </div>
+                <div class="sub-content menu-content">
+                    <!-- User Profile Card -->
+                    <div class="menu-profile-card">
+                        <div class="menu-avatar" id="menu-avatar">R</div>
+                        <div class="menu-user-details">
+                            <h3 id="menu-username">Rizki</h3>
+                            <p id="menu-email">rizki@email.com</p>
+                        </div>
+                        <button class="btn-edit-profile">
+                            <span class="material-icons-outlined">edit</span>
+                        </button>
+                    </div>
+
+                    <!-- Menu Items -->
+                    <div class="menu-section">
+                        <h4 class="menu-section-title">Akun</h4>
+                        <div class="menu-item" onclick="showToast('Profil Saya')">
+                            <div class="menu-item-left">
+                                <span class="material-icons-outlined menu-icon">person</span>
+                                <span>Profil Saya</span>
+                            </div>
+                            <span class="material-icons-outlined">chevron_right</span>
+                        </div>
+                        <div class="menu-item" onclick="showToast('Alamat Tersimpan')">
+                            <div class="menu-item-left">
+                                <span class="material-icons-outlined menu-icon">location_on</span>
+                                <span>Alamat Tersimpan</span>
+                            </div>
+                            <span class="material-icons-outlined">chevron_right</span>
+                        </div>
+                        <div class="menu-item" onclick="showToast('Metode Pembayaran')">
+                            <div class="menu-item-left">
+                                <span class="material-icons-outlined menu-icon">payment</span>
+                                <span>Metode Pembayaran</span>
+                            </div>
+                            <span class="material-icons-outlined">chevron_right</span>
+                        </div>
+                    </div>
+
+                    <div class="menu-section">
+                        <h4 class="menu-section-title">Dokumen</h4>
+                        <div class="menu-item" onclick="showToast('SIM & KTP')">
+                            <div class="menu-item-left">
+                                <span class="material-icons-outlined menu-icon">badge</span>
+                                <span>SIM & KTP</span>
+                            </div>
+                            <span class="material-icons-outlined">chevron_right</span>
+                        </div>
+                        <div class="menu-item" onclick="showToast('Dokumen Rental')">
+                            <div class="menu-item-left">
+                                <span class="material-icons-outlined menu-icon">description</span>
+                                <span>Dokumen Rental</span>
+                            </div>
+                            <span class="material-icons-outlined">chevron_right</span>
+                        </div>
+                    </div>
+
+                    <div class="menu-section">
+                        <h4 class="menu-section-title">Lainnya</h4>
+                        <div class="menu-item" onclick="showToast('Pengaturan')">
+                            <div class="menu-item-left">
+                                <span class="material-icons-outlined menu-icon">settings</span>
+                                <span>Pengaturan</span>
+                            </div>
+                            <span class="material-icons-outlined">chevron_right</span>
+                        </div>
+                        <div class="menu-item" onclick="showToast('Bantuan')">
+                            <div class="menu-item-left">
+                                <span class="material-icons-outlined menu-icon">help</span>
+                                <span>Pusat Bantuan</span>
+                            </div>
+                            <span class="material-icons-outlined">chevron_right</span>
+                        </div>
+                        <div class="menu-item" onclick="showToast('Tentang Lepas')">
+                            <div class="menu-item-left">
+                                <span class="material-icons-outlined menu-icon">info</span>
+                                <span>Tentang Lepas</span>
+                            </div>
+                            <span class="material-icons-outlined">chevron_right</span>
+                        </div>
+                        <div class="menu-item logout" onclick="handleLogout()">
+                            <div class="menu-item-left">
+                                <span class="material-icons-outlined menu-icon">logout</span>
+                                <span>Keluar</span>
+                            </div>
+                            <span class="material-icons-outlined">chevron_right</span>
+                        </div>
+                    </div>
+
+                    <div class="menu-footer">
+                        <p>Lepas Drive v1.0.0</p>
+                        <p>© 2026 Lepas. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="bottom-nav">
+                <button class="nav-item" data-page="dashboard" onclick="switchTab('dashboard')">
+                    <span class="material-icons-outlined">home</span>
+                    <span class="nav-label">Home</span>
+                </button>
+                <button class="nav-item" data-page="simpan" onclick="switchTab('simpan')">
+                    <span class="material-icons-outlined">bookmark_border</span>
+                    <span class="nav-label">Simpan</span>
+                </button>
+                <button class="nav-item" data-page="notifikasi" onclick="switchTab('notifikasi')">
+                    <span class="material-icons-outlined">notifications_none</span>
+                    <span class="nav-label">Notifikasi</span>
+                </button>
+                <button class="nav-item" data-page="riwayat" onclick="switchTab('riwayat')">
+                    <span class="material-icons-outlined">history</span>
+                    <span class="nav-label">Riwayat</span>
+                </button>
+                <button class="nav-item active" data-page="menu" onclick="switchTab('menu')">
+                    <span class="material-icons-outlined">person</span>
+                    <span class="nav-label">Menu</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- Toast Notification -->
+        <div class="toast" id="toast"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
