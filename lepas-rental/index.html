@@ -257,9 +257,20 @@
                 <div class="dash-section">
                     <div class="section-header">
                         <h3>Rekomendasi Mobil</h3>
-                        <a href="#" onclick="navigateTo('categories')">Lihat Semua</a>
+                        <a href="#" onclick="showAllVehicles('mobil')">Lihat Semua</a>
                     </div>
-                    <div class="car-grid" id="car-recommendations">
+                    <div class="horizontal-scroll vehicle-scroll" id="car-recommendations">
+                    <!-- Filled by JS -->
+                        </div>
+                </div>
+
+                <!-- Rekomendasi Motor -->
+                <div class="dash-section">
+                    <div class="section-header">
+                        <h3>Rekomendasi Motor</h3>
+                        <a href="#" onclick="showAllVehicles('motor')">Lihat Semua</a>
+                    </div>
+                    <div class="horizontal-scroll vehicle-scroll" id="motor-recommendations">
                         <!-- Filled by JS -->
                     </div>
                 </div>
@@ -276,10 +287,6 @@
                 <button class="nav-item" data-page="simpan" onclick="switchTab('simpan')">
                     <span class="material-icons-outlined">bookmark_border</span>
                     <span class="nav-label">Simpan</span>
-                </button>
-                <button class="nav-item" data-page="notifikasi" onclick="switchTab('notifikasi')">
-                    <span class="material-icons-outlined">notifications_none</span>
-                    <span class="nav-label">Notifikasi</span>
                 </button>
                 <button class="nav-item" data-page="riwayat" onclick="switchTab('riwayat')">
                     <span class="material-icons-outlined">history</span>
@@ -322,10 +329,9 @@
                 </div>
                 <div class="sub-content">
                     <div class="tab-bar">
-                        <button class="tab-btn active" onclick="switchSavedTab('semua', this)">Semua</button>
-                        <button class="tab-btn" onclick="switchSavedTab('mobil', this)">Mobil</button>
-                        <button class="tab-btn" onclick="switchSavedTab('rental', this)">Rental</button>
-                    </div>
+                            <button class="tab-btn active" onclick="switchSavedTab('mobil', this)">Mobil</button>
+                            <button class="tab-btn" onclick="switchSavedTab('motor', this)">Motor</button>
+                        </div>
                     <div class="saved-list" id="saved-list">
                         <!-- Filled by JS -->
                     </div>

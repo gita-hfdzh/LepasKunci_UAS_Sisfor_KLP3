@@ -19,6 +19,80 @@ const carData = [
     { id: 'c6', name: 'Honda HR-V', type: 'SUV', year: 2024, transmission: 'Matic', seats: 5, fuel: 'Bensin', price: 'Rp 550.000', perDay: '/hari', rentalId: 'r3', rentalName: 'DriveEasy', desc: 'Honda HR-V dengan desain sporty dan teknologi canggih. Kabin luas dengan fitur Honda SENSING untuk keamanan berkendara.', features: ['Honda SENSING', 'Sunroof', 'Wireless Charger', 'Remote Start', 'LED Headlamp'] },
 ];
 
+const motorData = [
+    {
+        id: 'm1',
+        name: 'Honda Beat',
+        type: 'Matic',
+        year: 2024,
+        transmission: 'Matic',
+        fuel: 'Bensin',
+        price: 'Rp 80.000',
+        perDay: '/hari',
+        rentalId: 'r1',
+        rentalName: 'AutoPro Rental',
+        desc: 'Honda Beat matic yang irit dan nyaman untuk perjalanan dalam kota.',
+        features: ['Irit BBM', 'Bagasi Luas', 'Matic', 'Ringan'],
+        category: 'motor'
+    },
+    {
+        id: 'm2',
+        name: 'Yamaha NMAX',
+        type: 'Matic',
+        year: 2023,
+        transmission: 'Matic',
+        fuel: 'Bensin',
+        price: 'Rp 150.000',
+        perDay: '/hari',
+        rentalId: 'r2',
+        rentalName: 'MobilKu Rent',
+        desc: 'Yamaha NMAX cocok untuk perjalanan santai dengan posisi berkendara nyaman.',
+        features: ['ABS', 'Bagasi Luas', 'Matic', 'Nyaman'],
+        category: 'motor'
+    },
+    {
+        id: 'm3',
+        name: 'Honda Vario',
+        type: 'Matic',
+        year: 2024,
+        transmission: 'Matic',
+        fuel: 'Bensin',
+        price: 'Rp 100.000',
+        perDay: '/hari',
+        rentalId: 'r3',
+        rentalName: 'DriveEasy',
+        desc: 'Honda Vario cocok untuk mobilitas harian dan irit bahan bakar.',
+        features: ['Matic', 'Irit BBM', 'LED', 'Bagasi'],
+        category: 'motor'
+    },
+    {
+        id: 'm4',
+        name: 'Yamaha Aerox',
+        type: 'Matic',
+        year: 2024,
+        transmission: 'Matic',
+        fuel: 'Bensin',
+        price: 'Rp 130.000',
+        perDay: '/hari',
+        rentalId: 'r4',
+        rentalName: 'GoRent Jakarta',
+        desc: 'Yamaha Aerox memiliki tampilan sporty dan tenaga yang responsif.',
+        features: ['Sporty', 'Matic', 'Digital Speedometer', 'LED'],
+        category: 'motor'
+    }
+];
+
+function getAllVehicles() {
+    return [
+        ...carData.map(item => ({ ...item, category: 'mobil' })),
+        ...motorData.map(item => ({ ...item, category: 'motor' }))
+    ];
+}
+
+function getVehicleById(vehicleId) {
+    return getAllVehicles().find(item => item.id === vehicleId);
+}
+
 const notifData = [
     { id: 'n1', type: 'success', icon: 'check_circle', title: 'Booking Dikonfirmasi', desc: 'Booking Toyota Avanza untuk tanggal 5-7 Juni 2026 telah dikonfirmasi oleh AutoPro Rental.', time: '2 jam lalu', unread: true },
     { id: 'n2', type: 'info', icon: 'info', title: 'Pengingat Pengembalian', desc: 'Jangan lupa mengembalikan Honda Brio besok tanggal 4 Juni 2026 sebelum pukul 17:00.', time: '5 jam lalu', unread: true },
@@ -161,7 +235,8 @@ function togglePassword(inputId, btn) {
 function renderDashboard() {
     renderRentalRecommendations();
     renderCarRecommendations();
-    renderSavedList();
+    renderMotorRecommendations();
+    renderSavedList('mobil');
     renderNotifications();
     renderHistory();
     renderCategories();
@@ -200,9 +275,9 @@ function renderRentalRecommendations() {
 function renderCarRecommendations() {
     const container = document.getElementById('car-recommendations');
     if (!container) return;
-    
+
     container.innerHTML = carData.map((car, i) => `
-        <div class="car-card animate-in animate-delay-${(i % 4) + 1}" onclick="viewCarDetail('${car.id}')">
+        <div class="vehicle-card-horizontal animate-in animate-delay-${(i % 4) + 1}" onclick="viewVehicleDetail('${car.id}')">
             <div class="car-card-img">
                 <span class="material-icons-outlined">directions_car</span>
                 <button class="car-card-save ${savedCars.has(car.id) ? 'saved' : ''}" onclick="event.stopPropagation(); toggleSave('${car.id}', this)">
@@ -218,41 +293,72 @@ function renderCarRecommendations() {
                     <div class="car-card-price">
                         ${car.price} <span>/hari</span>
                     </div>
-                    <button class="btn-rent-small" onclick="event.stopPropagation(); viewCarDetail('${car.id}')">Sewa</button>
+                    <button class="btn-rent-small" onclick="event.stopPropagation(); viewVehicleDetail('${car.id}')">Sewa</button>
                 </div>
             </div>
         </div>
     `).join('');
 }
 
-function renderSavedList() {
+function renderMotorRecommendations() {
+    const container = document.getElementById('motor-recommendations');
+    if (!container) return;
+
+    container.innerHTML = motorData.map((motor, i) => `
+        <div class="vehicle-card-horizontal animate-in animate-delay-${(i % 4) + 1}" onclick="viewVehicleDetail('${motor.id}')">
+            <div class="car-card-img">
+                <span class="material-icons-outlined">two_wheeler</span>
+                <button class="car-card-save ${savedCars.has(motor.id) ? 'saved' : ''}" onclick="event.stopPropagation(); toggleSave('${motor.id}', this)">
+                    <span class="material-icons-outlined">${savedCars.has(motor.id) ? 'bookmark' : 'bookmark_border'}</span>
+                </button>
+            </div>
+            <div class="car-card-body">
+                <div class="car-card-name">${motor.name}</div>
+                <div class="car-card-specs">
+                    ${motor.type} <span class="dot"></span> ${motor.transmission} <span class="dot"></span> ${motor.year}
+                </div>
+                <div class="car-card-footer">
+                    <div class="car-card-price">
+                        ${motor.price} <span>/hari</span>
+                    </div>
+                    <button class="btn-rent-small" onclick="event.stopPropagation(); viewVehicleDetail('${motor.id}')">Sewa</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderSavedList(filter = 'mobil') {
     const container = document.getElementById('saved-list');
     if (!container) return;
-    
-    const savedCarsList = carData.filter(c => savedCars.has(c.id));
-    
-    if (savedCarsList.length === 0) {
+
+    const allVehicles = getAllVehicles();
+    const savedList = allVehicles.filter(item => {
+        return savedCars.has(item.id) && item.category === filter;
+    });
+
+    if (savedList.length === 0) {
         container.innerHTML = `
             <div class="empty-state">
-                <span class="material-icons-outlined">bookmark_border</span>
-                <h3>Belum Ada Simpanan</h3>
-                <p>Mobil yang kamu simpan akan muncul di sini</p>
+                <span class="material-icons-outlined">${filter === 'motor' ? 'two_wheeler' : 'directions_car'}</span>
+                <h3>Belum Ada ${filter === 'motor' ? 'Motor' : 'Mobil'} Disimpan</h3>
+                <p>${filter === 'motor' ? 'Motor' : 'Mobil'} yang kamu simpan akan muncul di sini</p>
             </div>
         `;
         return;
     }
-    
-    container.innerHTML = savedCarsList.map(car => `
-        <div class="saved-item" onclick="viewCarDetail('${car.id}')">
+
+    container.innerHTML = savedList.map(item => `
+        <div class="saved-item" onclick="viewVehicleDetail('${item.id}')">
             <div class="saved-item-img">
-                <span class="material-icons-outlined">directions_car</span>
+                <span class="material-icons-outlined">${item.category === 'motor' ? 'two_wheeler' : 'directions_car'}</span>
             </div>
             <div class="saved-item-info">
-                <div class="saved-item-name">${car.name}</div>
-                <div class="saved-item-detail">${car.type} • ${car.transmission} • ${car.rentalName}</div>
+                <div class="saved-item-name">${item.name}</div>
+                <div class="saved-item-detail">${item.type} • ${item.transmission} • ${item.rentalName}</div>
                 <div class="saved-item-bottom">
-                    <span class="saved-item-price">${car.price}<span style="color:var(--text-tertiary);font-weight:400;font-size:11px"> /hari</span></span>
-                    <button class="saved-item-remove" onclick="event.stopPropagation(); removeSaved('${car.id}')">
+                    <span class="saved-item-price">${item.price}<span style="color:var(--text-tertiary);font-weight:400;font-size:11px"> /hari</span></span>
+                    <button class="saved-item-remove" onclick="event.stopPropagation(); removeSaved('${item.id}')">
                         <span class="material-icons-outlined" style="font-size:20px">close</span>
                     </button>
                 </div>
@@ -426,33 +532,300 @@ function toggleSaveCar() {
     renderSavedList();
 }
 
-function toggleSave(carId, btn) {
-    if (savedCars.has(carId)) {
-        savedCars.delete(carId);
+function toggleSave(vehicleId, btn) {
+    if (savedCars.has(vehicleId)) {
+        savedCars.delete(vehicleId);
         btn.classList.remove('saved');
         btn.querySelector('.material-icons-outlined').textContent = 'bookmark_border';
         showToast('Dihapus dari simpanan');
     } else {
-        savedCars.add(carId);
+        savedCars.add(vehicleId);
         btn.classList.add('saved');
         btn.querySelector('.material-icons-outlined').textContent = 'bookmark';
         showToast('Disimpan!');
     }
-    renderSavedList();
+
+    renderCarRecommendations();
+    renderMotorRecommendations();
+    renderSavedList('mobil');
 }
 
-function removeSaved(carId) {
-    savedCars.delete(carId);
-    renderSavedList();
+function removeSaved(vehicleId) {
+    savedCars.delete(vehicleId);
+    renderSavedList('mobil');
     renderCarRecommendations();
+    renderMotorRecommendations();
     showToast('Dihapus dari simpanan');
+}
+
+function viewVehicleDetail(vehicleId) {
+    const vehicle = getVehicleById(vehicleId);
+    if (!vehicle) return;
+
+    const body = document.getElementById('car-detail-body');
+    const saveIcon = document.getElementById('save-car-icon');
+
+    saveIcon.textContent = savedCars.has(vehicleId) ? 'bookmark' : 'bookmark_border';
+    document.getElementById('btn-save-car').dataset.carId = vehicleId;
+
+    const icon = vehicle.category === 'motor' ? 'two_wheeler' : 'directions_car';
+    const labelKapasitas = vehicle.category === 'motor' ? 'Jenis' : 'Kursi';
+    const kapasitasValue = vehicle.category === 'motor' ? vehicle.type : vehicle.seats;
+
+    body.innerHTML = `
+        <h2 class="car-detail-title">${vehicle.name}</h2>
+        <p class="car-detail-subtitle">${vehicle.category === 'motor' ? 'Motor' : 'Mobil'} • ${vehicle.year}</p>
+
+        <div class="car-specs-grid">
+            <div class="spec-item">
+                <span class="material-icons-outlined">settings</span>
+                <span class="spec-value">${vehicle.transmission}</span>
+                <span class="spec-label">Transmisi</span>
+            </div>
+            <div class="spec-item">
+                <span class="material-icons-outlined">${vehicle.category === 'motor' ? 'two_wheeler' : 'event_seat'}</span>
+                <span class="spec-value">${kapasitasValue}</span>
+                <span class="spec-label">${labelKapasitas}</span>
+            </div>
+            <div class="spec-item">
+                <span class="material-icons-outlined">local_gas_station</span>
+                <span class="spec-value">${vehicle.fuel}</span>
+                <span class="spec-label">Bahan Bakar</span>
+            </div>
+        </div>
+
+        <div class="car-detail-section">
+            <h3>Deskripsi</h3>
+            <p>${vehicle.desc}</p>
+        </div>
+
+        <div class="car-detail-section">
+            <h3>Fitur</h3>
+            <div class="car-features">
+                ${vehicle.features.map(f => `<span class="feature-tag">${f}</span>`).join('')}
+            </div>
+        </div>
+
+        <div class="car-detail-rental-info">
+            <div class="rental-avatar">${vehicle.rentalName.charAt(0)}</div>
+            <div>
+                <div class="rental-detail-name">${vehicle.rentalName}</div>
+                <div class="rental-detail-loc">
+                    <span class="material-icons-outlined" style="font-size:14px">location_on</span>
+                    ${rentalData.find(r => r.id === vehicle.rentalId)?.location || 'Jakarta'}
+                </div>
+            </div>
+        </div>
+
+        <div class="car-detail-bottom">
+            <div class="car-detail-price">
+                ${vehicle.price} <span>${vehicle.perDay}</span>
+            </div>
+            <button class="btn-rent-now" onclick="handleRentVehicle('${vehicle.id}')">
+                Sewa Sekarang
+            </button>
+        </div>
+    `;
+
+    navigateTo('car-detail');
+}
+
+function handleRentVehicle(vehicleId) {
+    const vehicle = getVehicleById(vehicleId);
+    if (!vehicle) return;
+
+    showToast(`Booking ${vehicle.name} berhasil! 🚗`);
+    navigateTo('dashboard');
+}
+
+function showAllVehicles(type) {
+    const title = type === 'motor' ? 'Motor Tersedia' : 'Mobil Tersedia';
+    const list = type === 'motor' ? motorData : carData;
+    const container = document.getElementById('categories-grid');
+
+    if (!container) return;
+
+    document.querySelector('#page-categories .sub-header h2').textContent = title;
+
+    container.innerHTML = list.map(item => `
+        <div class="category-card" onclick="viewVehicleDetail('${item.id}')">
+            <div class="category-card-img">
+                <span class="material-icons-outlined">${type === 'motor' ? 'two_wheeler' : 'directions_car'}</span>
+            </div>
+            <div class="category-card-body">
+                <div class="category-card-name">${item.name}</div>
+                <div class="category-card-count">${item.type} • ${item.price}/hari</div>
+            </div>
+        </div>
+    `).join('');
+
+    navigateTo('categories');
 }
 
 function handleRentCar(carId) {
     const car = carData.find(c => c.id === carId);
     if (!car) return;
-    showToast(`Booking ${car.name} berhasil! 🚗`);
-    navigateTo('dashboard');
+
+    uploadedFiles = [];
+
+    const rental = rentalData.find(r => r.id === car.rentalId);
+    const container = document.getElementById('rental-detail-content');
+
+    container.innerHTML = `
+        <div class="rental-detail-card">
+            <h3><span class="material-icons-outlined">directions_car</span> Detail Mobil</h3>
+
+            <div class="rental-info-row">
+                <span class="rental-info-label">Mobil</span>
+                <span class="rental-info-value">${car.name}</span>
+            </div>
+
+            <div class="rental-info-row">
+                <span class="rental-info-label">Rental</span>
+                <span class="rental-info-value">${car.rentalName}</span>
+            </div>
+
+            <div class="rental-info-row">
+                <span class="rental-info-label">Alamat</span>
+                <span class="rental-info-value">${rental ? rental.location : 'Banda Aceh'}</span>
+            </div>
+
+            <div class="rental-info-row">
+                <span class="rental-info-label">Harga</span>
+                <span class="rental-info-value">${car.price} /hari</span>
+            </div>
+        </div>
+
+        <form class="rental-form" onsubmit="submitRentalForm(event, '${car.id}')">
+            <div class="rental-detail-card">
+                <h3><span class="material-icons-outlined">person</span> Isi Data Penyewa</h3>
+
+                <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" id="rent-name" placeholder="Masukkan nama lengkap" required>
+                </div>
+
+                <div class="form-group">
+                    <label>No HP</label>
+                    <input type="tel" id="rent-phone" placeholder="Masukkan nomor HP" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Alamat Lengkap</label>
+                    <textarea id="rent-address" placeholder="Masukkan alamat lengkap" required></textarea>
+                </div>
+            </div>
+
+            <div class="rental-detail-card">
+                <h3><span class="material-icons-outlined">event</span> Durasi Sewa</h3>
+
+                <div class="date-grid">
+                    <div class="form-group">
+                        <label>Tanggal Mulai</label>
+                        <input type="date" id="rent-start" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tanggal Selesai</label>
+                        <input type="date" id="rent-end" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Jenis Pembayaran</label>
+                    <select id="rent-payment-status" required>
+                        <option value="">Pilih pembayaran</option>
+                        <option value="DP 30%">DP 30%</option>
+                        <option value="Lunas">Lunas</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Metode Pembayaran</label>
+                    <select id="rent-payment-method" required>
+                        <option value="">Pilih metode</option>
+                        <option value="E-Wallet">E-Wallet</option>
+                        <option value="Kartu Kredit/Debit">Kartu Kredit/Debit</option>
+                        <option value="Transfer Bank">Transfer Bank</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="rental-detail-card">
+                <h3><span class="material-icons-outlined">upload_file</span> Unggah Dokumen</h3>
+
+                <p class="rental-note">
+                    Unggah semua dokumen wajib: KTP, SIM, dan Surat Pernyataan Serah Terima Sewa Mobil.
+                </p>
+
+                <div class="doc-upload-box">
+                    <label>KTP</label>
+                    <input type="file" id="doc-ktp" accept=".pdf,.jpg,.jpeg,.png" required>
+                </div>
+
+                <div class="doc-upload-box">
+                    <label>SIM</label>
+                    <input type="file" id="doc-sim" accept=".pdf,.jpg,.jpeg,.png" required>
+                </div>
+
+                <div class="doc-upload-box">
+                    <label>Surat Pernyataan Serah Terima Sewa Mobil</label>
+                    <input type="file" id="doc-surat" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit-docs rental-confirm-btn">
+                <span class="material-icons-outlined">check_circle</span>
+                Konfirmasi Rental
+            </button>
+        </form>
+    `;
+
+    navigateTo('rental');
+}
+
+function submitRentalForm(event, carId) {
+    event.preventDefault();
+
+    const car = carData.find(c => c.id === carId);
+    if (!car) return;
+
+    const name = document.getElementById('rent-name').value;
+    const phone = document.getElementById('rent-phone').value;
+    const address = document.getElementById('rent-address').value;
+    const startDate = document.getElementById('rent-start').value;
+    const endDate = document.getElementById('rent-end').value;
+    const paymentStatus = document.getElementById('rent-payment-status').value;
+    const paymentMethod = document.getElementById('rent-payment-method').value;
+
+    const ktp = document.getElementById('doc-ktp').files[0];
+    const sim = document.getElementById('doc-sim').files[0];
+    const surat = document.getElementById('doc-surat').files[0];
+
+    if (!ktp || !sim || !surat) {
+        showToast('KTP, SIM, dan Surat Pernyataan wajib diunggah!');
+        return;
+    }
+
+    const newHistory = {
+        id: 'h' + Date.now(),
+        carName: car.name,
+        rentalName: car.rentalName,
+        status: 'pending',
+        statusText: 'Menunggu',
+        startDate: startDate,
+        endDate: endDate,
+        price: car.price,
+        carId: car.id
+    };
+
+    historyData.unshift(newHistory);
+
+    renderHistory();
+
+    showToast(`Rental ${car.name} berhasil diajukan! Menunggu konfirmasi owner ✅`);
+
+    navigateTo('riwayat');
 }
 
 // ---- RENTAL DETAIL ----
@@ -509,38 +882,6 @@ function viewRentalDetail(historyId) {
             <div class="rental-info-row">
                 <span class="rental-info-label">Total Biaya</span>
                 <span class="rental-info-value" style="color:var(--primary);font-size:16px">${item.price}</span>
-            </div>
-        </div>
-        
-        <!-- Document Upload -->
-        <div class="rental-detail-card">
-            <h3><span class="material-icons-outlined">upload_file</span> Dokumen Perjanjian</h3>
-            <p style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.6">
-                Unggah dokumen perjanjian sewa dan berita acara serah terima mobil. Format yang diterima: PDF, JPG, PNG (maks. 10MB)
-            </p>
-            
-            <div class="upload-section">
-                <input type="file" id="file-upload-${historyId}" class="file-input-hidden" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" onchange="handleFileUpload(event, '${historyId}')">
-                
-                <div class="upload-area" id="upload-area-${historyId}" 
-                    onclick="document.getElementById('file-upload-${historyId}').click()"
-                    ondragover="handleDragOver(event, '${historyId}')" 
-                    ondragleave="handleDragLeave(event, '${historyId}')" 
-                    ondrop="handleDrop(event, '${historyId}')">
-                    <span class="material-icons-outlined">cloud_upload</span>
-                    <p>Tarik & lepas file di sini</p>
-                    <p>atau <span class="upload-link">pilih file</span></p>
-                    <span>PDF, JPG, PNG (maks. 10MB)</span>
-                </div>
-                
-                <div class="uploaded-files" id="uploaded-files-${historyId}">
-                    <!-- Files will appear here -->
-                </div>
-                
-                <button class="btn-submit-docs" id="btn-submit-${historyId}" onclick="submitDocuments('${historyId}')" disabled>
-                    <span class="material-icons-outlined">send</span>
-                    Kirim Dokumen
-                </button>
             </div>
         </div>
     `;
@@ -657,8 +998,7 @@ function formatFileSize(bytes) {
 function switchSavedTab(tab, btn) {
     btn.parentElement.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
     btn.classList.add('active');
-    // For demo, always show the same saved list
-    renderSavedList();
+    renderSavedList(tab);
 }
 
 function switchHistoryTab(tab, btn) {
@@ -697,6 +1037,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Pre-save some cars for demo
     savedCars.add('c1');
     savedCars.add('c3');
+    savedCars.add('m1');
+    savedCars.add('m2');
     
     // Pre-render all data
     renderDashboard();

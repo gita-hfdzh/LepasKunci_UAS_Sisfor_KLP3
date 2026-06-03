@@ -2274,3 +2274,107 @@ input:focus, button:focus {
 .file-input-hidden {
     display: none;
 }
+
+.rental-form .form-group {
+    margin-bottom: 16px;
+}
+
+.rental-form .form-group label,
+.doc-upload-box label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.rental-form input,
+.rental-form textarea,
+.rental-form select {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 13px 14px;
+    font-size: 14px;
+    color: var(--text-primary);
+    background: var(--bg-card);
+    outline: none;
+    transition: var(--transition);
+}
+
+.rental-form textarea {
+    min-height: 90px;
+    resize: none;
+}
+
+.rental-form input:focus,
+.rental-form textarea:focus,
+.rental-form select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(74, 93, 58, 0.1);
+}
+
+.date-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.rental-note {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.doc-upload-box {
+    border: 1.5px dashed var(--border);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    margin-bottom: 14px;
+    background: rgba(74, 93, 58, 0.03);
+}
+
+.doc-upload-box input[type="file"] {
+    border: none;
+    padding: 0;
+    background: transparent;
+    font-size: 13px;
+}
+
+.rental-confirm-btn {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.vehicle-scroll {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.vehicle-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.vehicle-card-horizontal {
+    min-width: 190px;
+    max-width: 190px;
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-light);
+    cursor: pointer;
+    transition: var(--transition);
+    scroll-snap-align: start;
+}
+
+.vehicle-card-horizontal:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+}
