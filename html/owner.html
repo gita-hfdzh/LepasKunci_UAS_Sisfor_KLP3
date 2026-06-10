@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Lepas Owner - Kelola armada rental kendaraan Anda dengan mudah.">
+    <title>Lepas Owner - Dashboard Kendaraan</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="css/style-owner.css">
+</head>
+<body>
+    <div id="app" class="app-container">
+
+
+        <!-- ========== MAIN DASHBOARD PAGE ========== -->
+        <div id="page-dashboard" class="page">
+            <div class="dashboard-page">
+                <div class="dash-header">
+                    <div class="dash-header-title">
+                        <h2>Dashboard</h2>
+                    </div>
+                </div>
+
+                <div class="dash-content">
+                    <!-- Stats Grid -->
+                    <div class="stats-container">
+                        <!-- Stats Card 1: Kendaraan Status -->
+                        <div class="stats-card stats-left animate-slide-up">
+                            <div class="stats-card-header">
+                                <span class="material-icons-outlined stats-icon">directions_car</span>
+                            </div>
+                            <div class="stats-card-values">
+                                <div class="stat-group">
+                                    <span class="stat-num" id="stat-di-sewa">10</span>
+                                    <span class="stat-lbl">di sewa</span>
+                                </div>
+                                <div class="stat-group">
+                                    <span class="stat-num" id="stat-tersedia">24</span>
+                                    <span class="stat-lbl">tersedia</span>
+                                </div>
+                                <div class="stat-group">
+                                    <span class="stat-num" id="stat-di-service">5</span>
+                                    <span class="stat-lbl">di service</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stats Card 2: Denda Status -->
+                        <div class="stats-card stats-right animate-slide-up animate-delay-1">
+                            <div class="stats-card-header">
+                                <span class="material-icons-outlined stats-icon icon-denda">work_outline</span>
+                            </div>
+                            <div class="stats-card-values single-stat">
+                                <div class="stat-group">
+                                    <span class="stat-num-lg" id="stat-denda">5</span>
+                                    <span class="stat-lbl-sub">Total customer denda</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Revenue Graph Card -->
+                    <div class="revenue-card animate-slide-up animate-delay-2">
+                        <div class="rev-header">
+                            <span class="rev-title">Total Pendapatan Perbulan</span>
+                        </div>
+                        <div class="rev-body">
+                            <!-- Visual SVG Chart -->
+                            <div class="chart-container">
+                                <svg viewBox="0 0 200 60" class="mini-chart">
+                                    <!-- Bar Chart -->
+                                    <rect x="15" y="45" width="12" height="15" rx="2" fill="#8FA89B" opacity="0.6"/>
+                                    <rect x="35" y="35" width="12" height="25" rx="2" fill="#8FA89B" opacity="0.6"/>
+                                    <rect x="55" y="40" width="12" height="20" rx="2" fill="#8FA89B" opacity="0.6"/>
+                                    <rect x="75" y="25" width="12" height="35" rx="2" fill="#8FA89B" opacity="0.6"/>
+                                    <rect x="95" y="15" width="12" height="45" rx="2" fill="#4A5D3A"/>
+                                    
+                                    <!-- Line Chart Overlay -->
+                                    <path d="M21 42 L41 32 L61 38 L81 22 L101 10" fill="none" stroke="#4A5D3A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="21" cy="42" r="2.5" fill="#4A5D3A"/>
+                                    <circle cx="41" cy="32" r="2.5" fill="#4A5D3A"/>
+                                    <circle cx="61" cy="38" r="2.5" fill="#4A5D3A"/>
+                                    <circle cx="81" cy="22" r="2.5" fill="#4A5D3A"/>
+                                    <circle cx="101" cy="10" r="2.5" fill="#4A5D3A"/>
+                                </svg>
+                            </div>
+                            <div class="rev-value-box">
+                                <h3 id="revenue-amount">Rp12.000.000</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Navigation Buttons (Gray Cards) -->
+                    <div class="quick-nav-list">
+                        <!-- Data Pembayaran Button -->
+                        <button class="quick-nav-btn animate-slide-up" onclick="openTableModal('pembayaran')">
+                            <div class="btn-left">
+                                <div class="btn-icon-wrapper">
+                                    <span class="material-icons-outlined">work_outline</span>
+                                </div>
+                                <span class="btn-text">Data Pembayaran</span>
+                            </div>
+                            <span class="material-icons-outlined btn-arrow">chevron_right</span>
+                        </button>
+
+                        <!-- Data Kendaraan Button -->
+                        <button class="quick-nav-btn animate-slide-up" onclick="openTableModal('kendaraan')">
+                            <div class="btn-left">
+                                <div class="btn-icon-wrapper">
+                                    <span class="material-icons-outlined">directions_car</span>
+                                </div>
+                                <span class="btn-text">Data Kendaraan</span>
+                            </div>
+                            <span class="material-icons-outlined btn-arrow">chevron_right</span>
+                        </button>
+
+                        <!-- Data Sewa Button -->
+                        <button class="quick-nav-btn animate-slide-up" onclick="openTableModal('sewa')">
+                            <div class="btn-left">
+                                <div class="btn-icon-wrapper">
+                                    <span class="material-icons-outlined">key</span>
+                                </div>
+                                <span class="btn-text">Data Sewa</span>
+                            </div>
+                            <span class="material-icons-outlined btn-arrow">chevron_right</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Navigation -->
+            <nav class="bottom-nav">
+                <button class="nav-item active" data-page="dashboard" onclick="switchMainTab('dashboard')">
+                    <span class="material-icons-outlined">home</span>
+                </button>
+                <button class="nav-item" data-page="booking" onclick="switchMainTab('booking')">
+                    <span class="material-icons-outlined">list_alt</span>
+                </button>
+                <button class="nav-item" data-page="profil" onclick="switchMainTab('profil')">
+                    <span class="material-icons-outlined">account_circle</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- ========== TABLES PAGES (MODAL / FULLSCREEN VIEWS) ========== -->
+        
+        <!-- Table 1: Data Pembayaran Modal -->
+        <div id="view-table-pembayaran" class="table-modal-page">
+            <div class="sub-header olive-header">
+                <button class="btn-back-white" onclick="closeTableModal('pembayaran')">
+                    <span class="material-icons-outlined">arrow_back</span>
+                </button>
+                <h2>Tabel Pembayaran</h2>
+                <div style="width:40px"></div>
+            </div>
+            <div class="table-content-area">
+                <div class="table-card animate-fade-in">
+                    <div class="table-responsive">
+                        <table class="db-table">
+                            <thead>
+                                <tr>
+                                    <th>id_pembayaran</th>
+                                    <th>id_penyewaan</th>
+                                    <th>tanggal_bayar</th>
+                                    <th>jumlah_bayar</th>
+                                    <th>metode_pembayaran</th>
+                                    <th>status_pembayaran</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pembayaran-table-body">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table 2: Data Kendaraan Modal -->
+        <div id="view-table-kendaraan" class="table-modal-page">
+            <div class="sub-header olive-header">
+                <button class="btn-back-white" onclick="closeTableModal('kendaraan')">
+                    <span class="material-icons-outlined">arrow_back</span>
+                </button>
+                <h2>Tabel Kendaraan</h2>
+                <button class="btn-header-add" onclick="showAddVehicleModal()">
+                    <span class="material-icons-outlined">add</span>
+                </button>
+            </div>
+            <div class="table-content-area">
+                <div class="table-card animate-fade-in">
+                    <div class="table-responsive">
+                        <table class="db-table">
+                            <thead>
+                                <tr>
+                                    <th>id_kendaraan</th>
+                                    <th>id_owner</th>
+                                    <th>nama_kendaraan</th>
+                                    <th>jenis</th>
+                                    <th>plat_nomor</th>
+                                    <th>harga_sewa</th>
+                                    <th>status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="kendaraan-table-body">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table 3: Data Sewa Modal -->
+        <div id="view-table-sewa" class="table-modal-page">
+            <div class="sub-header olive-header">
+                <button class="btn-back-white" onclick="closeTableModal('sewa')">
+                    <span class="material-icons-outlined">arrow_back</span>
+                </button>
+                <h2>Tabel Penyewaan</h2>
+                <div style="width:40px"></div>
+            </div>
+            <div class="table-content-area">
+                <div class="table-card animate-fade-in">
+                    <div class="table-responsive">
+                        <table class="db-table">
+                            <thead>
+                                <tr>
+                                    <th>id_penyewaan</th>
+                                    <th>id_customer</th>
+                                    <th>id_kendaraan</th>
+                                    <th>tanggal_sewa</th>
+                                    <th>tanggal_kembali</th>
+                                    <th>total_bayar</th>
+                                    <th>status</th>
+                                    <th>denda</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sewa-table-body">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== BOOKING MANAGER PAGE ========== -->
+        <div id="page-booking" class="page">
+            <div class="booking-page">
+                <div class="dash-header">
+                    <div class="dash-header-title">
+                        <h2>Booking</h2>
+                    </div>
+                </div>
+                
+                <div class="booking-content-area">
+                    <!-- Filter Pills -->
+                    <div class="pills-scroll">
+                        <div class="pills-bar">
+                            <button class="pill-btn active" onclick="filterBookings('baru', this)">baru</button>
+                            <button class="pill-btn" onclick="filterBookings('denda', this)">denda</button>
+                            <button class="pill-btn" onclick="filterBookings('sedang di sewa', this)">sedang di sewa</button>
+                            <button class="pill-btn" onclick="filterBookings('riwayat', this)">riwayat</button>
+                        </div>
+                    </div>
+
+                    <!-- Booking List -->
+                    <div class="booking-list" id="booking-list-container">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <nav class="bottom-nav">
+                <button class="nav-item" data-page="dashboard" onclick="switchMainTab('dashboard')">
+                    <span class="material-icons-outlined">home</span>
+                </button>
+                <button class="nav-item active" data-page="booking" onclick="switchMainTab('booking')">
+                    <span class="material-icons-outlined">list_alt</span>
+                </button>
+                <button class="nav-item" data-page="profil" onclick="switchMainTab('profil')">
+                    <span class="material-icons-outlined">account_circle</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- ========== PROFIL OWNER PAGE ========== -->
+        <div id="page-profil" class="page">
+            <div class="profil-page">
+                <div class="profil-header-bg">
+                    <div class="profil-header-top">
+                        <h2>Profil</h2>
+                        <button class="btn-header-add-white" onclick="showAddVehicleModal()">
+                            <span class="material-icons-outlined">add</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="profil-content">
+                    <!-- Profile Card -->
+                    <div class="profil-card-main animate-fade-in">
+                        <div class="profile-avatar-container">
+                            <div class="profile-avatar-circle" id="profile-avatar-preview">M</div>
+                            <button class="btn-edit-avatar" onclick="editProfileDetails()">
+                                <span class="material-icons-outlined">edit</span>
+                            </button>
+                        </div>
+                        <h3 id="owner-display-name">Mita Jaya Rent</h3>
+                        <p class="profile-address" id="owner-display-address">
+                            Jl. Sultan Salahuddin, Bitai, Kec. Jaya Baru, Kota Banda Aceh, Aceh 23235
+                        </p>
+                        <p class="profile-bio" id="owner-display-bio">
+                            Menyediakan layanan rental mobil dan motor dengan kondisi terawat dan siap digunakan.
+                        </p>
+                    </div>
+
+                    <!-- Category Tags Pills -->
+                    <div class="pills-scroll" style="margin-top: 15px;">
+                        <div class="pills-bar" id="profile-tags-container">
+                            <button class="pill-btn-outline active" onclick="filterProfileVehicles('mobil', this)">mobil</button>
+                            <button class="pill-btn-outline" onclick="filterProfileVehicles('motor', this)">motor</button>
+                            <button class="pill-btn-outline" onclick="filterProfileVehicles('city car', this)">city car</button>
+                            <button class="pill-btn-outline" onclick="filterProfileVehicles('sedan', this)">sedan</button>
+                            <button class="pill-btn-outline" onclick="filterProfileVehicles('MPV', this)">MPV</button>
+                            <button class="pill-btn-outline add-tag" onclick="addNewProfileTag()">+</button>
+                        </div>
+                    </div>
+
+                    <!-- Owner's Vehicle Grid -->
+                    <div class="vehicle-grid" id="owner-vehicle-grid">
+                        <!-- Rendered by JS -->
+                    </div>
+
+                    <div class="owner-logout-box">
+                        <button class="btn-owner-logout" onclick="handleOwnerLogout()">
+                            <span class="material-icons-outlined">logout</span>
+                            Keluar dari Akun Owner
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <nav class="bottom-nav">
+                <button class="nav-item" data-page="dashboard" onclick="switchMainTab('dashboard')">
+                    <span class="material-icons-outlined">home</span>
+                </button>
+                <button class="nav-item" data-page="booking" onclick="switchMainTab('booking')">
+                    <span class="material-icons-outlined">list_alt</span>
+                </button>
+                <button class="nav-item active" data-page="profil" onclick="switchMainTab('profil')">
+                    <span class="material-icons-outlined">account_circle</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- ========== DYNAMIC MODALS ========== -->
+
+        <!-- Modal 1: Live GPS Tracking Screen -->
+        <div id="modal-tracker" class="modal-overlay">
+            <div class="modal-card tracker-card animate-scale-in">
+                <div class="modal-card-header">
+                    <h3>Tracking Lokasi Kendaraan</h3>
+                    <button class="btn-close-modal" onclick="closeTrackerModal()">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
+                <div class="modal-card-body">
+                    <div class="tracker-vehicle-info">
+                        <h4 id="tracker-car-name">Toyota Avanza</h4>
+                        <p id="tracker-plate">BL 1234 AB</p>
+                    </div>
+                    
+                    <!-- Simulated MAP Tracker -->
+                    <div class="map-container">
+                        <!-- Grid pattern simulation -->
+                        <div class="map-grid"></div>
+                        <!-- Road paths -->
+                        <svg class="map-roads" viewBox="0 0 300 200">
+                            <!-- Main Road -->
+                            <path d="M10 100 Q 150 100 290 100" fill="none" stroke="#E0E0D8" stroke-width="12" stroke-linecap="round"/>
+                            <path d="M150 10 Q 150 100 150 190" fill="none" stroke="#E0E0D8" stroke-width="12" stroke-linecap="round"/>
+                            <!-- Sub Road -->
+                            <path d="M10 50 Q 80 50 150 100" fill="none" stroke="#D3D3C8" stroke-width="6" stroke-linecap="round"/>
+                            <path d="M150 100 Q 220 150 290 150" fill="none" stroke="#D3D3C8" stroke-width="6" stroke-linecap="round"/>
+                            
+                            <!-- Road Center dashed lines -->
+                            <path d="M10 100 L 290 100" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="6, 6"/>
+                            <path d="M150 10 L 150 190" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="6, 6"/>
+
+                            <!-- Simulated Vehicle Path animation -->
+                            <path id="gps-path" d="M10 100 H 150 V 150 L 220 150" fill="none" stroke="none"/>
+                            
+                            <!-- GPS Target Pin Animation -->
+                            <g id="map-marker-pin" class="pulse-marker">
+                                <circle cx="150" cy="100" r="15" fill="rgba(74, 93, 58, 0.2)"/>
+                                <circle cx="150" cy="100" r="6" fill="#4A5D3A" stroke="#FFFFFF" stroke-width="1.5"/>
+                            </g>
+                        </svg>
+
+                        <div class="map-overlay-info">
+                            <span class="map-coord" id="map-live-coordinates">Lat: 5.54829, Lng: 95.32183</span>
+                            <span class="map-speed" id="map-live-speed">Speed: 42 km/h</span>
+                        </div>
+                    </div>
+
+                    <div class="tracker-details">
+                        <div class="tracker-detail-row">
+                            <span class="detail-label">Status GPS:</span>
+                            <span class="detail-val text-green" id="tracker-gps-status">Aktif (Live)</span>
+                        </div>
+                        <div class="tracker-detail-row">
+                            <span class="detail-label">Alamat Terakhir:</span>
+                            <span class="detail-val" id="tracker-last-address">Jl. Sultan Salahuddin, Banda Aceh</span>
+                        </div>
+                        <div class="tracker-detail-row">
+                            <span class="detail-label">Penyewa:</span>
+                            <span class="detail-val" id="tracker-customer-name">Rizki Pratama</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 2: Add / Edit Vehicle Form -->
+        <div id="modal-vehicle-form" class="modal-overlay">
+            <div class="modal-card animate-scale-in">
+                <div class="modal-card-header">
+                    <h3 id="vehicle-form-title">Tambah Kendaraan Baru</h3>
+                    <button class="btn-close-modal" onclick="closeVehicleFormModal()">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
+                <div class="modal-card-body">
+                    <form id="vehicle-add-form" onsubmit="handleSaveVehicle(event)">
+                        <input type="hidden" id="form-id-kendaraan">
+                        
+                        <div class="form-group">
+                            <label for="form-nama_kendaraan">Nama Kendaraan</label>
+                            <input type="text" id="form-nama_kendaraan" placeholder="Contoh: Toyota Avanza" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="form-jenis">Jenis Kendaraan</label>
+                            <select id="form-jenis" required>
+                                <option value="mobil">Mobil</option>
+                                <option value="motor">Motor</option>
+                                <option value="city car">City Car</option>
+                                <option value="sedan">Sedan</option>
+                                <option value="MPV">MPV</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="form-plat_nomor">Plat Nomor</label>
+                            <input type="text" id="form-plat_nomor" placeholder="Contoh: BL 1234 AA" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="form-harga_sewa">Harga Sewa (Rp / Hari)</label>
+                            <input type="number" id="form-harga_sewa" placeholder="Contoh: 200000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="form-status">Status Kendaraan</label>
+                            <select id="form-status" required>
+                                <option value="Tersedia">Tersedia</option>
+                                <option value="Di Sewa">Di Sewa</option>
+                                <option value="Di Service">Di Service</option>
+                            </select>
+                        </div>
+                        <div class="modal-actions">
+                            <button type="button" class="btn-secondary" onclick="closeVehicleFormModal()">Batal</button>
+                            <button type="submit" class="btn-primary">Simpan Kendaraan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 3: Edit Profile Info Form -->
+        <div id="modal-profile-form" class="modal-overlay">
+            <div class="modal-card animate-scale-in">
+                <div class="modal-card-header">
+                    <h3>Edit Informasi Usaha</h3>
+                    <button class="btn-close-modal" onclick="closeProfileFormModal()">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
+                <div class="modal-card-body">
+                    <form id="profile-edit-form" onsubmit="handleSaveProfile(event)">
+                        <div class="form-group">
+                            <label for="form-owner-name">Nama Usaha / Owner</label>
+                            <input type="text" id="form-owner-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="form-owner-address">Alamat Lengkap</label>
+                            <textarea id="form-owner-address" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="form-owner-bio">Deskripsi Layanan</label>
+                            <textarea id="form-owner-bio" rows="3" required></textarea>
+                        </div>
+                        <div class="modal-actions">
+                            <button type="button" class="btn-secondary" onclick="closeProfileFormModal()">Batal</button>
+                            <button type="submit" class="btn-primary">Simpan Perubahan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div class="toast" id="toast"></div>
+    </div>
+
+    <script src="js/owner.js"></script>
+</body>
+</html>
