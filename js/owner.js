@@ -109,15 +109,14 @@ let pembayaranData = [
 // ============================================
 const savedOwnerAccount = JSON.parse(localStorage.getItem('lepasOwnerAccount'));
 
-let currentOwner = savedOwnerAccount
-    ? {
-        id_owner: 1,
-        nama: savedOwnerAccount.name,
-        email: savedOwnerAccount.email,
-        password: savedOwnerAccount.password,
-        no_hp: savedOwnerAccount.phone
-    }
-    : ownerData[0];
+let currentOwner = {
+    id_owner: localStorage.getItem('lepasUserId') || 1,
+    nama: localStorage.getItem('lepasUserName') || 'Owner',
+    email: localStorage.getItem('lepasLoginEmail') || 'owner@email.com',
+    no_hp: localStorage.getItem('lepasUserPhone') || '-',
+    alamat: localStorage.getItem('lepasOwnerAddress') || '-'
+};
+    // : ownerData[0];
 
 let currentMainTab = 'dashboard';
 let currentBookingFilter = 'baru';
@@ -178,6 +177,19 @@ function closeTableModal(tableName) {
     }
 }
 
+function updateOwnerInfo() {
+    const elements = {
+        'owner-name-display': currentOwner.nama,
+        'owner-email-display': currentOwner.email,
+        'owner-phone-display': currentOwner.no_hp,
+        'owner-address-display': currentOwner.alamat,
+    };
+
+    Object.entries(elements).forEach(([id, value]) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+    });
+}
 
 // ============================================
 // 5. RENDER FUNCTIONS

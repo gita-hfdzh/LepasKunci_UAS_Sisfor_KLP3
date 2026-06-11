@@ -125,14 +125,14 @@ const categories = [
 let currentPage = 'dashboard';
 
 let currentUser = {
-    name: localStorage.getItem('lepasLoginEmail')
-        ? localStorage.getItem('lepasLoginEmail').split('@')[0]
-        : 'User',
+    name: localStorage.getItem('lepasUserName') || 'User',
     email: localStorage.getItem('lepasLoginEmail') || 'user@email.com',
-    initial: localStorage.getItem('lepasLoginEmail')
-        ? localStorage.getItem('lepasLoginEmail').charAt(0).toUpperCase()
+    phone: localStorage.getItem('lepasUserPhone') || '-',
+    initial: localStorage.getItem('lepasUserName')
+        ? localStorage.getItem('lepasUserName').charAt(0).toUpperCase()
         : 'U'
 };
+
 let savedCars = new Set();
 let uploadedFiles = [];
 
@@ -181,6 +181,7 @@ function updateUserInfo() {
         'dash-avatar': currentUser.initial,
         'menu-username': currentUser.name,
         'menu-email': currentUser.email,
+        'menu-phone': currentUser.phone,
         'menu-avatar': currentUser.initial,
     };
     

@@ -48,58 +48,95 @@ function handleLogin(event) {
         return;
     }
 
-    if (email === '' || password === '') {
-        alert('Email dan password wajib diisi.');
-        return;
-    }
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('role', selectedRole);
 
-    localStorage.setItem('lepasLoginRole', selectedRole);
-    localStorage.setItem('lepasLoginEmail', email);
+    fetch('api/login.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            localStorage.setItem('lepasLoginRole', data.user.role);
+            localStorage.setItem('lepasUserId', data.user.id);
+            localStorage.setItem('lepasUserName', data.user.nama);
+            localStorage.setItem('lepasLoginEmail', data.user.email);
+            localStorage.setItem('lepasUserPhone', data.user.no_hp);
+            localStorage.setItem('lepasOwnerAddress', data.user.alamat || '');
 
-    if (selectedRole === 'user') {
-        window.location.href = 'user.html';
-    } else {
-        window.location.href = 'owner.html';
-    }
+            if (data.user.role === 'user') {
+                window.location.href = 'user.html';
+            } else {
+                window.location.href = 'owner.html';
+            }
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert('Gagal terhubung ke server');
+    });
 }
 
 function handleRegisterUser(event) {
     event.preventDefault();
 
-    const userData = {
-        role: 'user',
-        name: document.getElementById('user-name').value,
-        email: document.getElementById('user-email').value,
-        phone: document.getElementById('user-phone').value,
-        password: document.getElementById('user-password').value
-    };
+    const formData = new FormData();
+    formData.append('nama', document.getElementById('user-name').value);
+    formData.append('email', document.getElementById('user-email').value);
+    formData.append('no_hp', document.getElementById('user-phone').value);
+    formData.append('password', document.getElementById('user-password').value);
 
-    localStorage.setItem('lepasUserAccount', JSON.stringify(userData));
-    localStorage.setItem('lepasLoginRole', 'user');
-    localStorage.setItem('lepasLoginEmail', userData.email);
+    fetch('api/register_customer.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message);
 
-    alert('Akun user berhasil dibuat!');
-    window.location.href = 'user.html';
+        if (data.success) {
+            selectedRole = 'user';
+            showPage('login');
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert('Gagal daftar user');
+    });
 }
 
 function handleRegisterOwner(event) {
     event.preventDefault();
 
-    const ownerData = {
-        role: 'owner',
-        name: document.getElementById('owner-name').value,
-        email: document.getElementById('owner-email').value,
-        phone: document.getElementById('owner-phone').value,
-        address: document.getElementById('owner-address').value,
-        password: document.getElementById('owner-password').value
-    };
+    const formData = new FormData();
+    formData.append('nama', document.getElementById('owner-name').value);
+    formData.append('email', document.getElementById('owner-email').value);
+    formData.append('no_hp', document.getElementById('owner-phone').value);
+    formData.append('alamat', document.getElementById('owner-address').value);
+    formData.append('password', document.getElementById('owner-password').value);
 
-    localStorage.setItem('lepasOwnerAccount', JSON.stringify(ownerData));
-    localStorage.setItem('lepasLoginRole', 'owner');
-    localStorage.setItem('lepasLoginEmail', ownerData.email);
+    fetch('api/register_owner.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message);
 
-    alert('Akun owner berhasil dibuat!');
-    window.location.href = 'owner.html';
+        if (data.success) {
+            selectedRole = 'owner';
+            showPage('login');
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert('Gagal daftar owner');
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
